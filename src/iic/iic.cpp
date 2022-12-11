@@ -34,7 +34,6 @@ void i2cStart(){
     digitalWrite(scl,HIGH);
     digitalWrite(sda,HIGH);
     digitalWrite(sda,LOW);
-
     delay(1);
 
     Serial.println("i2c start...");
@@ -49,7 +48,6 @@ void i2cStop(){
     digitalWrite(scl,HIGH);
     digitalWrite(sda,LOW);
     digitalWrite(sda,HIGH);
-
     delay(1);
 
     Serial.println("i2c stop...");
@@ -72,7 +70,7 @@ void waitAck(){
 void writeByte(int data){
 
     digitalWrite(scl,LOW);
-    for (size_t i = 0; i < 8; i++){
+    for (uint8_t i = 0; i < 8; i++){
         if(data << i & HIGH_BIT_MASK){
             digitalWrite(sda,HIGH);
             Serial1.println(1);
