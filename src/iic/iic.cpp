@@ -20,7 +20,7 @@ void i2cInit(int slave){
   if(slave!=0){
     slaveAddr = slave;
   }
-  Serial.println(slaveAddr);
+  //Serial.println(slaveAddr);
   pinMode(sda,OUTPUT);
   pinMode(scl,OUTPUT);
 }
@@ -36,7 +36,7 @@ void i2cStart(){
     digitalWrite(sda,LOW);
     delay(1);
 
-    Serial.println("i2c start...");
+    //Serial.println("i2c start...");
     
 }
 
@@ -50,7 +50,7 @@ void i2cStop(){
     digitalWrite(sda,HIGH);
     delay(1);
 
-    Serial.println("i2c stop...");
+    //Serial.println("i2c stop...");
 
 }
 
@@ -62,7 +62,7 @@ void waitAck(){
     digitalWrite(scl,HIGH);
     delay(1);
 
-    Serial.println("i2c slave ack...");
+   // Serial.println("i2c slave ack...");
 
 }
 
@@ -81,7 +81,7 @@ void writeByte(int data){
         digitalWrite(scl,HIGH);
         digitalWrite(scl,LOW);
     }
-    Serial1.println("one byte write finished...");
+    //Serial1.println("one byte write finished...");
 }
 
 /**
