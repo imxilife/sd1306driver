@@ -1,6 +1,19 @@
 #ifndef test_h
 #define test_h
 
-void printMsg();
+
+class Test{
+
+    public:
+        Test();
+        virtual ~Test();
+        void init();
+        void printMsg();
+
+    private:
+
+    protected:    
+
+};
 
 #endif
