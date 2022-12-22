@@ -24,3 +24,4 @@ class GDI{
         virtual void drawText(String value);
 
 };
+

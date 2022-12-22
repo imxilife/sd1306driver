@@ -1,6 +1,6 @@
 
 #include <Arduino.h>
-#include "iic.h"
+#include "i2c.h"
 
 #define HIGH_BIT_MASK 0x80
 #define DATA_TR_WRITE 0x0

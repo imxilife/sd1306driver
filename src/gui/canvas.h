@@ -3,13 +3,13 @@
 #ifndef CANVAS_H_
 #define CANVAS_H_
 
-namespace Gui
+namespace gui
 {
 
-    class Canvas
+    class Canvas:public GDI
     {
 
-        public:
+/*         public:
             Canvas();
             virtual ~Canvas();
             void drawPoint(int x, int y, int val);
@@ -20,7 +20,7 @@ namespace Gui
             void drawOval();
             void drawRect();
             void drawRoundRect();
-            void drawLineWithSlopeInterceptForm();
+            void drawLineWithSlopeInterceptForm(); */
     };
 
 }

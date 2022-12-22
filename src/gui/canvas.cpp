@@ -1,10 +1,10 @@
 
 
 #include <Arduino.h>
-#include "./iic/iic.h"
-#include "canvas.hpp"
+#include "./iic/i2c.h"
+#include "canvas.h"
 
-namespace Gui
+namespace gui
 {
 
   /**
@@ -54,56 +54,7 @@ namespace Gui
    void Canvas::drawLine(int x1, int y1, int x2, int y2)
   {
 
-    // 根据两点式求解直线方程
 
-    // 确定x的方向
-    int xDirection = x2 - x1 > 0 ? 1 : 0;
-    int array[xDirection ? x2 + 1 : x1 + 1];
-    // 确定x的取值范围
-
-    int arrayLength = sizeof(array) / 4;
-
-    if (xDirection)
-    {
-      array[0] = x1;
-      array[sizeof(array) - 1] = x2;
-    }
-    else
-    {
-      array[0] = x2;
-      array[sizeof(array) - 1] = x1;
-    }
-    // Serial.println(arrayLength);
-    for (size_t i = 1; i <= arrayLength - 1; i++)
-    {
-      array[i] = xDirection ? x1 + i : x2 + i;
-    }
-
-    // int xy[size][size];
-
-    Serial.println("start print...");
-
-    int x, y;
-    int x2x1 = (x2 - x1);
-    int y2y1 = (y2 - y1);
-
-    for (size_t j = 0; j < arrayLength; j++)
-    {
-      if (j == 0)
-      {
-        drawPoint(x1, y1, 0x01);
-      }
-      else if (j == arrayLength - 1)
-      {
-        drawPoint(x2, y2, 0x01);
-      }
-      else
-      {
-        y = (array[j] - x1) * y2y1 / x2x1 + y1;
-        drawPoint(array[j], y, 0x01);
-        Serial.println(y);
-      }
-    }
   }
 
   /**

@@ -2,7 +2,7 @@
 #ifndef SSD1306_H_
 #define SSD1306_H_
 
-namespace LcdDriver
+namespace lcdDriver
 {
     class SSD1306{
 
