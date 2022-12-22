@@ -17,39 +17,44 @@
 
 #include <Arduino.h>
 #include <math.h>
-#include "./iic/iic.h"
-#include "./lcd_driver/ssd1306.hpp"
-#include "./gui/canvas.hpp"
+#include "./lcd_driver/Ssd1306.h"
+#include "./gui/Canvas.h"
 
-int led = 2;
+int led = 2; // for test
 
-
+Ssd1306 ssd1306;
+Canvas* canvas;
 
 void initSSD1306()
 {
-
-  LcdDriver::SSD1306::initSSD1306();
-
+  ssd1306.initSSD1306();
 }
-
 
 void setup()
 {
-
+ 
+  canvas = new Ssd1306();
   Serial.begin(115200);
   pinMode(led, OUTPUT);
   initSSD1306();
-  LcdDriver::SSD1306::clearScreen()
+  ssd1306.clearScreen();
 }
 
 void loop()
 {
 
   //画点
-
+  //canvas->drawPoint(20,20,0x01);
   //画线
-  //drawLine(0,0,127,63);
-
+  //canvas->drawLine(0,0,128,64);
+  //画圆
+  //canvas->drawCircle(64,32,30);
+  //画矩形
+  //canvas->drawRect(20,20,50,30);
+  //画横线
+  canvas->drawHLine(20,20,40);
+  //画竖线
+  //canvas->drawVLine(20,20,40);
 
   while (true)
   {

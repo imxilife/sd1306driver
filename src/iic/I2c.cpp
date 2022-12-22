@@ -1,7 +1,8 @@
 
 #include <Arduino.h>
-#include "i2c.h"
+#include "I2c.h"
 
+//TODO 后续这些字段定义成外部传入
 #define HIGH_BIT_MASK 0x80
 #define DATA_TR_WRITE 0x0
 #define DATA_TR_READ 0x1
@@ -9,12 +10,16 @@
 #define SD1306_IIC_CMD_MASK (0 << 6)
 #define SD1306_IIC_DAT_MASK (1 << 6)
 
-int slaveAddr = 0x78; // for sd1306
+int slaveAddr = 0x78; //作为构造函数的参数从外部传入
 
-int sda = 21;
-int scl = 22;
+int sda = 21;  //作为构造函数的参数从外部传入
+int scl = 22;  //同上
 
-void i2c::IIC::i2cInit(int slave)
+/**
+ * @brief I2c初始化
+ * @param slave IIC设备地址
+*/
+void I2C::i2cInit(int slave)
 {
     if (slave != 0)
     {
@@ -25,7 +30,10 @@ void i2c::IIC::i2cInit(int slave)
     pinMode(scl, OUTPUT);
 }
 
-void i2c::IIC::i2cStart()
+/**
+ * @brief i2c的启动时序
+*/
+void I2C::i2cStart()
 {
 
     digitalWrite(scl, LOW);
@@ -39,7 +47,10 @@ void i2c::IIC::i2cStart()
     // Serial.println("i2c start...");
 }
 
-void i2c::IIC::i2cStop()
+/**
+ * @brief i2c停止时序
+*/
+void I2C::i2cStop()
 {
 
     digitalWrite(scl, LOW);
@@ -53,7 +64,10 @@ void i2c::IIC::i2cStop()
     // Serial.println("i2c stop...");
 }
 
-void i2c::IIC::waitAck()
+/**
+ * @brief i2c应答时序
+*/
+void I2C::waitAck()
 {
 
     digitalWrite(scl, LOW);
@@ -65,17 +79,16 @@ void i2c::IIC::waitAck()
     // Serial.println("i2c slave ack...");
 }
 
-i2c::IIC::IIC()
-{
-    Serial.println("create iic instance...");
-}
-
-i2c::IIC::~IIC()
+I2C::~I2C()
 {
     Serial.println("release iic instance...");
 }
 
-void i2c::IIC::writeByte(int data)
+/**
+ * @brief i2c写入一个字节
+ * @param data 1byte
+*/
+void I2C::writeByte(int data)
 {
     digitalWrite(scl, LOW);
     for (uint8_t i = 0; i < 8; i++)
@@ -97,23 +110,44 @@ void i2c::IIC::writeByte(int data)
 }
 
 /**
- * @brief
- * 写入单条命令
- * @param cmd 指令
+ * @brief 往i2c设备写入指令
+ * @param cmd 指令 1byte
  */
-void i2c::IIC::writeCmd(int command)
+void I2C::writeCmd(int command)
 {
     i2cStart();
     writeByte(slaveAddr);
     waitAck();
     writeByte(SD1306_IIC_CMD_MASK);
     waitAck();
-    writeByte(cmd);
+    writeByte(command);
     waitAck();
     i2cStop();
 }
 
-void i2c::IIC::writeSerialCmd(int cmds[], int size)
+/**
+ * @brief 向i2c设备发送数据
+ *
+ * @param data 1byte
+ */
+void I2C::writeData(int data)
+{
+
+    i2cStart();
+    writeByte(slaveAddr);
+    waitAck();
+    writeByte(SD1306_IIC_DAT_MASK);
+    waitAck();
+    writeByte(data);
+    waitAck();
+    i2cStop();
+}
+
+/**
+ * @brief 向i2c设备发送指令
+ * 
+*/
+void I2C::writeSerialCmd(int cmds[], int size)
 {
 
     i2cStart();
@@ -127,22 +161,4 @@ void i2c::IIC::writeSerialCmd(int cmds[], int size)
         writeByte(cmd);
         waitAck();
     }
-}
-
-/**
- * @brief 写入单条数据
- *
- * @param data 数据
- */
-void i2c::IIC::writeData(int data)
-{
-
-    i2cStart();
-    writeByte(slaveAddr);
-    waitAck();
-    writeByte(SD1306_IIC_DAT_MASK);
-    waitAck();
-    writeByte(data);
-    waitAck();
-    i2cStop();
 }

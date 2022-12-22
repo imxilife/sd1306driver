@@ -2,21 +2,19 @@
 #ifndef SSD1306_H_
 #define SSD1306_H_
 
-namespace lcdDriver
+#include "./gui/Canvas.h"
+
+class Ssd1306 : public Canvas
 {
-    class SSD1306{
 
-        private:
-            
-        public:
-            SSD1306();
-            virtual ~SSD1306();
-            void initSSD1306() ;
-            void clearScreen() ;
-            void fillScreen() ;
-            void clearFirstRow();
-    };
-
-}
+private:
+public:
+    virtual ~Ssd1306();
+    void initSSD1306();
+    void clearScreen();
+    void fillScreen();
+    void clearFirstRow();
+    virtual void drawPoint(int x, int y, int val) override;
+};
 
 #endif
