@@ -60,11 +60,11 @@ void loop()
 
   // canvas->drawHLine(20,20,40);
 
-  canvas->drawLine(0, 0, 127, 63);
+/*   canvas->drawLine(0, 0, 127, 63);
   canvas->drawHLine(0, 0, 127);
   canvas->drawHLine(0, 63, 127);
-  canvas->drawVLine(127, 0, 63);
-  canvas->drawVLine(0, 0, 63);
+  canvas->drawVLine(127, 0, 63); */
+  canvas->drawVLine(0, 0, 64);
 
   // canvas->drawLine(0,0,127,63);
 

@@ -179,12 +179,12 @@ void Canvas::drawVLine(int startX, int startY, int height)
     return;
   }
 
-  for (size_t i = 0; i < height; i++)
+  for (u_int8_t i = 0; i < height; i++)
   {
-    int offset = (1 << ((startY + i) % 8)) - 1;
+    int offset = (1 << ((startY + i+1) % 8)) - 1;
     if (offset == 0)
     {
-      offset = 0;
+      offset = 0xff;
     }
     Serial.println(offset);
     drawPoint(startX, startY + i, offset);
