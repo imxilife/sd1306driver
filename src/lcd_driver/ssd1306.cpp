@@ -110,10 +110,20 @@ void Ssd1306::clearFirstRow()
 void Ssd1306::drawPoint(int x, int y, int val)
 {
 
-    //Serial.println("ssd1306 implement draw point function...");
-    if ((x < 0 || x > 127) || (y < 0 || y > 63))
+    // Serial.println("ssd1306 implement draw point function...");
+    if (x < 0 || x > 127)
     {
-        Serial.println("x,y坐标不合法");
+        Serial.print("x=");
+        Serial.print(x);
+        Serial.println("y坐标不合法");
+        return;
+    }
+    if (y < 0 || y > 63)
+    {
+        Serial.print("|y=");
+        Serial.print(y);
+        Serial.println();
+        Serial.println("y坐标不合法");
         return;
     }
 
@@ -125,17 +135,17 @@ void Ssd1306::drawPoint(int x, int y, int val)
     int pointY = y % 8;
 
     int pointVal = 0;
-    if (val & 0x01)
-    {
-        pointVal = 1;
-    }
-    else
-    {
-        pointVal = 0;
-    }
 
+    int vv = val & 0xff;
     i2c.writeCmd(pageIndex);
     i2c.writeCmd(lowAddr);
     i2c.writeCmd(hightAddr);
-    i2c.writeData(pointVal << pointY);
+    if (vv == 0x01)
+    {
+        i2c.writeData(vv << pointY);
+    }
+    else
+    {
+        i2c.writeData(vv);
+    }
 }

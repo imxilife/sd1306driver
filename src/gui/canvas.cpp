@@ -62,21 +62,36 @@ Canvas::~Canvas()
 }
 void Canvas::drawPoint(int x, int y, int val)
 {
-    Serial.println("must be implement by sub class...");
+  Serial.println("must be implement by sub class...");
 }
 
 /**
  * @brief 绘制一条直线  根据两点式求解直线方程
+ *  这个方程必须满足斜率k不为0，即x1≠x2 且 y1≠y2
  * @param startX 起始点x坐标
  * @param startY 起始点y坐标
  * @param endX   终止点x坐标
  * @param endY   终止点y坐标
-*/
+ */
 void Canvas::drawLine(int startX, int startY, int endX, int endY)
 {
 
   Serial.println("draw line...");
-  
+
+  if (startX == endX || endY == startY)
+  {
+    Serial.println("起始点横或纵坐标相等的情况下不适用两点式");
+    if (startX == endX)
+    {
+      drawHLine(startX, startY, abs(endX - startX));
+    }
+    else
+    {
+      drawVLine(startX, startY, abs(endY - startY));
+    }
+    return;
+  }
+
   // 确定x的方向
   int xDirection = endX - startX > 0 ? 1 : 0;
   int array[xDirection ? endX + 1 : startX + 1];
@@ -135,9 +150,19 @@ void Canvas::drawLine(int startX, int startY, int endX, int endY)
  */
 void Canvas::drawHLine(int startX, int startY, int length)
 {
-  int endX = startX + length;
-  int endY = startY;
-  drawLine(startX, startY, endX, endY);
+  // int endX = startX + length;
+  // int endY = startY;
+  // drawLine(startX, startY, endX, endY);
+  if (length < 0)
+  {
+    Serial.println("length must be positive");
+    return;
+  }
+
+  for (size_t i = 0; i < length; i++)
+  {
+    drawPoint(startX + i, startY, 0x01);
+  }
 }
 
 /**
@@ -146,9 +171,24 @@ void Canvas::drawHLine(int startX, int startY, int length)
  */
 void Canvas::drawVLine(int startX, int startY, int height)
 {
-  int endX = startX;
-  int endY = startY + height;
-  drawLine(startX, startY, endX, endY);
+  // int endX = startX;
+  // int endY = startY + height;
+  if (height < 0)
+  {
+    Serial.println("height must be positive...");
+    return;
+  }
+
+  for (size_t i = 0; i < height; i++)
+  {
+    int offset = (1 << ((startY + i) % 8)) - 1;
+    if (offset == 0)
+    {
+      offset = 0;
+    }
+    Serial.println(offset);
+    drawPoint(startX, startY + i, offset);
+  }
 }
 
 /**
