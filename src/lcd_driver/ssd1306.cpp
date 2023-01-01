@@ -146,6 +146,9 @@ void Ssd1306::drawPoint(int x, int y, int val)
     }
     else
     {
+        //Serial.print("写入值:");
+        //Serial.print(vv);
+       // Serial.println();
         i2c.writeData(vv);
     }
 }

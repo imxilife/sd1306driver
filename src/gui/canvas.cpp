@@ -179,16 +179,38 @@ void Canvas::drawVLine(int startX, int startY, int height)
     return;
   }
 
-  for (u_int8_t i = 0; i < height; i++)
+  int newData = 0;
+  int initData = 0xFF;
+  for (size_t i = 0; i < height; i++)
   {
-    int offset = (1 << ((startY + i+1) % 8)) - 1;
+     int leftShiftVal = 0x01<<((startY+i)%8);
+     Serial.print("leftShiftVal=");
+     Serial.print(leftShiftVal);
+     Serial.println();
+     if(i!=0){
+      newData = leftShiftVal|initData; //0x02 & 0x01 = 0x11 
+     }else{
+      newData = leftShiftVal & initData; //0x01 & 0xff = 0x01 initData = 0x01;
+     }
+     Serial.print("newData=");
+     Serial.print(newData);
+     Serial.println();
+     drawPoint(startX,startY+i,newData);
+     initData = newData;
+  }
+  
+
+/*   for (u_int8_t i = 0; i < height; i++)
+  {
+    myY = startY + i;
+    int offset = (1 << ((myY + 1) % 8)) - 1;
     if (offset == 0)
     {
       offset = 0xff;
     }
     Serial.println(offset);
     drawPoint(startX, startY + i, offset);
-  }
+  } */
 }
 
 /**
